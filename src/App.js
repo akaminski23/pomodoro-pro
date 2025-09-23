@@ -56,12 +56,46 @@ const App = () => {
       gradient: 'linear-gradient(135deg, rgba(45, 55, 72, 0.8), rgba(74, 85, 104, 0.6), rgba(160, 174, 192, 0.4))',
       metallic: 'linear-gradient(145deg, #e2e8f0, #cbd5e0, #a0aec0)',
       accent: '#90CDF4'
+    },
+    'Liquid Glass Aurora': {
+      primary: '#FF6B9D',
+      secondary: '#4ECDC4',
+      background: 'transparent',
+      text: '#FFFFFF',
+      glass: true,
+      gradient: 'linear-gradient(135deg, rgba(255, 107, 157, 0.8), rgba(78, 205, 196, 0.6), rgba(138, 43, 226, 0.4))',
+      metallic: 'linear-gradient(145deg, #ff9a9e, #fecfef, #ffecd2)',
+      accent: '#FF6B9D'
+    },
+    'Liquid Glass Neon': {
+      primary: '#00F5FF',
+      secondary: '#FF1493',
+      background: 'transparent',
+      text: '#FFFFFF',
+      glass: true,
+      gradient: 'linear-gradient(135deg, rgba(0, 245, 255, 0.8), rgba(255, 20, 147, 0.6), rgba(138, 43, 226, 0.4))',
+      metallic: 'linear-gradient(145deg, #1a1a2e, #16213e, #0f3460)',
+      accent: '#00F5FF'
+    },
+    'Liquid Glass Diamond': {
+      primary: '#E8E8E8',
+      secondary: '#FFFFFF',
+      background: 'transparent',
+      text: '#333333',
+      glass: true,
+      gradient: 'linear-gradient(135deg, rgba(232, 232, 232, 0.9), rgba(255, 255, 255, 0.7), rgba(240, 248, 255, 0.5))',
+      metallic: 'linear-gradient(145deg, #ffffff, #f0f8ff, #e6f3ff)',
+      accent: '#87CEEB'
     }
   };
 
   const getTextColor = (bgColor) => {
     const lightThemes = ['Honey', 'Yellow', 'Cream'];
-    if (theme === 'Liquid Glass') return '#FFFFFF';
+    const liquidGlassThemes = ['Liquid Glass', 'Liquid Glass Aurora', 'Liquid Glass Neon'];
+    const diamondTheme = ['Liquid Glass Diamond'];
+
+    if (liquidGlassThemes.includes(theme)) return '#FFFFFF';
+    if (diamondTheme.includes(theme)) return '#333333';
     return lightThemes.includes(theme) ? themes[theme].text : '#FFFFFF';
   };
 
@@ -218,14 +252,14 @@ const App = () => {
   const currentTheme = themes[theme];
 
   return (
-    <div className={`app ${theme === 'Liquid Glass' ? 'liquid-glass-theme' : ''}`} style={{
-      background: theme === 'Liquid Glass' ? currentTheme.gradient : `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary})`,
+    <div className={`app ${theme.includes('Liquid Glass') ? `liquid-glass-theme ${theme.replace(/\s+/g, '-').toLowerCase()}` : ''}`} style={{
+      background: theme.includes('Liquid Glass') ? currentTheme.gradient : `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary})`,
       color: getTextColor(),
       minHeight: '100vh'
     }}>
       <div className="container">
         <header>
-          <h1>🍅 Pomodoro Pro</h1>
+          <h1><img src="/pomodoro-icon.png" alt="Pomodoro" className="pomodoro-icon" /> Pomodoro Pro</h1>
           <div className="controls-row">
             <div className="theme-selector">
               <label>Theme: </label>
@@ -391,9 +425,10 @@ const App = () => {
         </footer>
       </div>
 
-      {theme === 'Liquid Glass' && (
+      {theme.includes('Liquid Glass') && (
         <svg className="glass-filter">
           <defs>
+            {/* Original Liquid Glass Filter */}
             <filter
               id="liquid-glass-filter"
               x="0%"
@@ -420,6 +455,100 @@ const App = () => {
               />
               <feGaussianBlur in="displaced" stdDeviation="1.5" result="finalBlur" />
               <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+            </filter>
+
+            {/* Aurora Filter - Dynamic wave patterns */}
+            <filter
+              id="aurora-glass-filter"
+              x="0%"
+              y="0%"
+              width="100%"
+              height="100%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.03 0.08"
+                numOctaves="3"
+                seed="42"
+                result="aurora-noise"
+              >
+                <animate attributeName="baseFrequency"
+                  values="0.03 0.08;0.05 0.12;0.03 0.08"
+                  dur="8s"
+                  repeatCount="indefinite"/>
+              </feTurbulence>
+              <feColorMatrix in="aurora-noise" values="1 0 1 0 0.2  0 1 1 0 0.1  1 0 1 0 0.3  0 0 0 1 0" result="aurora-colors"/>
+              <feGaussianBlur in="aurora-colors" stdDeviation="3" result="aurora-blur" />
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="aurora-blur"
+                scale="20"
+                xChannelSelector="R"
+                yChannelSelector="G"
+                result="aurora-displaced"
+              />
+              <feGaussianBlur in="aurora-displaced" stdDeviation="1" result="aurora-final" />
+            </filter>
+
+            {/* Neon Filter - Electric glitch effects */}
+            <filter
+              id="neon-glass-filter"
+              x="0%"
+              y="0%"
+              width="100%"
+              height="100%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feTurbulence
+                type="turbulence"
+                baseFrequency="0.1 0.02"
+                numOctaves="2"
+                seed="99"
+                result="neon-noise"
+              />
+              <feColorMatrix in="neon-noise" values="0 1 1 0 0  1 0 1 0 0  1 1 0 0 0  0 0 0 1 0" result="neon-electric"/>
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="neon-electric"
+                scale="8"
+                xChannelSelector="B"
+                yChannelSelector="R"
+                result="neon-glitch"
+              />
+              <feGaussianBlur in="neon-glitch" stdDeviation="0.5" result="neon-final" />
+            </filter>
+
+            {/* Diamond Filter - Crystal refractions */}
+            <filter
+              id="diamond-glass-filter"
+              x="0%"
+              y="0%"
+              width="100%"
+              height="100%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.2 0.2"
+                numOctaves="4"
+                seed="777"
+                result="crystal-noise"
+              />
+              <feColorMatrix in="crystal-noise" values="1 1 1 0 0  1 1 1 0 0  1 1 1 0 0  0 0 0 1 0" result="crystal-white"/>
+              <feGaussianBlur in="crystal-white" stdDeviation="0.8" result="crystal-blur" />
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="crystal-blur"
+                scale="5"
+                xChannelSelector="R"
+                yChannelSelector="B"
+                result="crystal-refract"
+              />
+              <feSpecularLighting in="crystal-refract" specularConstant="2" specularExponent="20" result="crystal-shine">
+                <fePointLight x="50" y="50" z="200"/>
+              </feSpecularLighting>
+              <feComposite in="crystal-shine" in2="crystal-refract" operator="screen" result="diamond-final"/>
             </filter>
           </defs>
         </svg>
