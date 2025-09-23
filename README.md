@@ -4,12 +4,13 @@ A feature-rich Progressive Web App (PWA) for Pomodoro time management with multi
 
 ## 🚀 Live Demo
 
-**App URL**: https://pomodoro-8v6ggbvq4-adam-s-projects-f8673593.vercel.app
+**App URL**: https://pomodoro-g34snec5x-adam-s-projects-f8673593.vercel.app
 
 ## ✨ Features
 
 ### 🎵 Audio System
 - **11 Sound Options**: Bell, Chime, Beep, Soft, Ping, Meditation Bell, Gentle Fade, Ambient Tone, Wake Up Alarm, Air Horn, School Bell
+- **Test Sound Button**: 🔊 Instant sound preview without waiting for timer completion
 - **Web Audio API Implementation**: Multiple wave types (sine, triangle, sawtooth)
 - **Volume Patterns**: Gentle (0.2), standard (0.3), loud (0.6-0.8)
 - **Special Effects**: Pulsing patterns for aggressive sounds, double tones for School Bell
