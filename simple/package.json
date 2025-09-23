@@ -1,0 +1,16 @@
+{
+  "name": "pomodoro-simple",
+  "version": "1.0.0",
+  "description": "Simple Pomodoro Timer PWA for iOS Safari",
+  "homepage": "https://akaminski23.github.io/pomodoro-simple-test",
+  "scripts": {
+    "deploy": "gh-pages -d .",
+    "serve": "python3 -m http.server 8000"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
+  },
+  "keywords": ["pwa", "pomodoro", "timer", "ios", "safari"],
+  "author": "Adam Kaminski",
+  "license": "MIT"
+}

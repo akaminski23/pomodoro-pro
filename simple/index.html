@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#8B5CF6">
+
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pomodoro Simple">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <title>Pomodoro Simple - Focus Timer</title>
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #8B5CF6, #A78BFA);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .timer-circle {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 0 auto 2rem;
+        }
+
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring circle {
+            transition: stroke-dashoffset 0.3s ease;
+        }
+
+        .timer-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .time {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .mode {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 80px;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button.primary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #8B5CF6;
+            font-weight: 600;
+        }
+
+        button.primary:hover {
+            background: white;
+        }
+
+        .mode-tabs {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .mode-tabs button {
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            min-width: auto;
+        }
+
+        .mode-tabs button.active {
+            background: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .sessions {
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .session-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: background 0.3s ease;
+        }
+
+        .dot.completed {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .timer-circle {
+                width: 200px;
+                height: 200px;
+            }
+
+            .time {
+                font-size: 2.5rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            button {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍅 Pomodoro Simple</h1>
+
+        <div class="mode-tabs">
+            <button id="focus-tab" class="active">Focus</button>
+            <button id="short-tab">Short Break</button>
+            <button id="long-tab">Long Break</button>
+        </div>
+
+        <div class="timer-circle">
+            <svg width="250" height="250" class="progress-ring">
+                <circle
+                    cx="125"
+                    cy="125"
+                    r="110"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.2)"
+                    stroke-width="8"
+                />
+                <circle
+                    id="progress-circle"
+                    cx="125"
+                    cy="125"
+                    r="110"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.8)"
+                    stroke-width="8"
+                    stroke-linecap="round"
+                    stroke-dasharray="691.15"
+                    stroke-dashoffset="691.15"
+                />
+            </svg>
+            <div class="timer-display">
+                <div class="time" id="timer-display">25:00</div>
+                <div class="mode" id="mode-display">Focus Time</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="start-pause" class="primary">Start</button>
+            <button id="reset">Reset</button>
+        </div>
+
+        <div class="sessions">
+            <div>Sessions: <span id="session-count">0</span></div>
+            <div class="session-dots">
+                <div class="dot" id="dot-0"></div>
+                <div class="dot" id="dot-1"></div>
+                <div class="dot" id="dot-2"></div>
+                <div class="dot" id="dot-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple Pomodoro Timer - iOS Safari Compatible
+        class PomodoroTimer {
+            constructor() {
+                // Timer state
+                this.modes = {
+                    focus: { duration: 25 * 60, label: 'Focus Time' },
+                    short: { duration: 5 * 60, label: 'Short Break' },
+                    long: { duration: 15 * 60, label: 'Long Break' }
+                };
+
+                this.currentMode = 'focus';
+                this.timeLeft = this.modes.focus.duration;
+                this.isRunning = false;
+                this.sessions = 0;
+                this.timer = null;
+
+                // DOM elements
+                this.timerDisplay = document.getElementById('timer-display');
+                this.modeDisplay = document.getElementById('mode-display');
+                this.startPauseBtn = document.getElementById('start-pause');
+                this.resetBtn = document.getElementById('reset');
+                this.sessionCount = document.getElementById('session-count');
+                this.progressCircle = document.getElementById('progress-circle');
+
+                // Mode tabs
+                this.focusTab = document.getElementById('focus-tab');
+                this.shortTab = document.getElementById('short-tab');
+                this.longTab = document.getElementById('long-tab');
+
+                this.init();
+            }
+
+            init() {
+                console.log('Initializing Pomodoro Timer...');
+
+                // Event listeners
+                this.startPauseBtn.addEventListener('click', () => this.toggleTimer());
+                this.resetBtn.addEventListener('click', () => this.resetTimer());
+
+                this.focusTab.addEventListener('click', () => this.switchMode('focus'));
+                this.shortTab.addEventListener('click', () => this.switchMode('short'));
+                this.longTab.addEventListener('click', () => this.switchMode('long'));
+
+                // Keyboard support
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space') {
+                        e.preventDefault();
+                        this.toggleTimer();
+                    }
+                });
+
+                // Load saved state
+                this.loadState();
+
+                // Initial display update
+                this.updateDisplay();
+                this.updateProgress();
+
+                // Request notification permission
+                this.requestNotificationPermission();
+
+                console.log('Timer initialized successfully');
+            }
+
+            toggleTimer() {
+                if (this.isRunning) {
+                    this.pauseTimer();
+                } else {
+                    this.startTimer();
+                }
+            }
+
+            startTimer() {
+                console.log('Starting timer...');
+                this.isRunning = true;
+                this.startPauseBtn.textContent = 'Pause';
+
+                this.timer = setInterval(() => {
+                    this.timeLeft--;
+                    this.updateDisplay();
+                    this.updateProgress();
+                    this.saveState();
+
+                    if (this.timeLeft <= 0) {
+                        this.timerComplete();
+                    }
+                }, 1000);
+            }
+
+            pauseTimer() {
+                console.log('Pausing timer...');
+                this.isRunning = false;
+                this.startPauseBtn.textContent = 'Start';
+                clearInterval(this.timer);
+                this.saveState();
+            }
+
+            resetTimer() {
+                console.log('Resetting timer...');
+                this.pauseTimer();
+                this.timeLeft = this.modes[this.currentMode].duration;
+                this.updateDisplay();
+                this.updateProgress();
+                this.saveState();
+            }
+
+            switchMode(mode) {
+                console.log('Switching to mode:', mode);
+                this.pauseTimer();
+                this.currentMode = mode;
+                this.timeLeft = this.modes[mode].duration;
+
+                // Update active tab
+                document.querySelectorAll('.mode-tabs button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                if (mode === 'focus') this.focusTab.classList.add('active');
+                if (mode === 'short') this.shortTab.classList.add('active');
+                if (mode === 'long') this.longTab.classList.add('active');
+
+                this.updateDisplay();
+                this.updateProgress();
+                this.saveState();
+            }
+
+            timerComplete() {
+                console.log('Timer complete!');
+                this.pauseTimer();
+
+                // Play notification sound
+                this.playNotificationSound();
+
+                // Show notification
+                this.showNotification();
+
+                // Handle session completion
+                if (this.currentMode === 'focus') {
+                    this.sessions++;
+                    this.updateSessionDisplay();
+
+                    // Auto-switch to break
+                    const nextMode = this.sessions % 4 === 0 ? 'long' : 'short';
+                    this.switchMode(nextMode);
+                } else {
+                    // Break complete, switch to focus
+                    this.switchMode('focus');
+                }
+
+                this.saveState();
+            }
+
+            updateDisplay() {
+                const minutes = Math.floor(this.timeLeft / 60);
+                const seconds = this.timeLeft % 60;
+                this.timerDisplay.textContent =
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                this.modeDisplay.textContent = this.modes[this.currentMode].label;
+            }
+
+            updateProgress() {
+                const totalTime = this.modes[this.currentMode].duration;
+                const progress = (totalTime - this.timeLeft) / totalTime;
+                const circumference = 2 * Math.PI * 110; // radius = 110
+                const offset = circumference - (progress * circumference);
+                this.progressCircle.style.strokeDashoffset = offset;
+            }
+
+            updateSessionDisplay() {
+                this.sessionCount.textContent = this.sessions;
+
+                // Update dots
+                for (let i = 0; i < 4; i++) {
+                    const dot = document.getElementById(`dot-${i}`);
+                    if (i < this.sessions % 4) {
+                        dot.classList.add('completed');
+                    } else {
+                        dot.classList.remove('completed');
+                    }
+                }
+            }
+
+            playNotificationSound() {
+                try {
+                    // Simple beep sound using Web Audio API
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+
+                    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                    oscillator.type = 'sine';
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.5);
+                } catch (error) {
+                    console.log('Audio not available:', error);
+                }
+            }
+
+            requestNotificationPermission() {
+                if ('Notification' in window) {
+                    if (Notification.permission === 'default') {
+                        Notification.requestPermission().then(permission => {
+                            console.log('Notification permission:', permission);
+                        }).catch(error => {
+                            console.log('Notification permission error:', error);
+                        });
+                    }
+                }
+            }
+
+            showNotification() {
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    try {
+                        const title = this.currentMode === 'focus' ? 'Focus Complete!' : 'Break Complete!';
+                        const body = this.currentMode === 'focus' ? 'Time for a break' : 'Ready for focus?';
+
+                        new Notification(title, {
+                            body: body,
+                            icon: 'icon-192.png',
+                            badge: 'icon-192.png'
+                        });
+                    } catch (error) {
+                        console.log('Notification failed:', error);
+                    }
+                }
+            }
+
+            saveState() {
+                try {
+                    const state = {
+                        currentMode: this.currentMode,
+                        timeLeft: this.timeLeft,
+                        sessions: this.sessions,
+                        isRunning: this.isRunning
+                    };
+                    localStorage.setItem('pomodoro-state', JSON.stringify(state));
+                } catch (error) {
+                    console.log('Save state failed:', error);
+                }
+            }
+
+            loadState() {
+                try {
+                    const saved = localStorage.getItem('pomodoro-state');
+                    if (saved) {
+                        const state = JSON.parse(saved);
+                        this.currentMode = state.currentMode || 'focus';
+                        this.timeLeft = state.timeLeft || this.modes[this.currentMode].duration;
+                        this.sessions = state.sessions || 0;
+
+                        // Update displays
+                        this.updateSessionDisplay();
+                        this.switchMode(this.currentMode);
+                    }
+                } catch (error) {
+                    console.log('Load state failed:', error);
+                }
+            }
+        }
+
+        // Error handling
+        window.addEventListener('error', (e) => {
+            console.error('Error:', e.message, 'at', e.filename + ':' + e.lineno);
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Unhandled promise rejection:', e.reason);
+            e.preventDefault();
+        });
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('DOM loaded, initializing timer...');
+                new PomodoroTimer();
+            });
+        } else {
+            console.log('DOM already loaded, initializing timer...');
+            new PomodoroTimer();
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    navigator.serviceWorker.register('sw.js')
+                        .then(registration => {
+                            console.log('SW registered:', registration);
+                        })
+                        .catch(registrationError => {
+                            console.log('SW registration failed:', registrationError);
+                        });
+                }, 200);
+            });
+        }
+    </script>
+</body>
+</html>
