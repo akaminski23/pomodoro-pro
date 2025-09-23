@@ -242,6 +242,14 @@ const App = () => {
                   <option key={sound} value={sound}>{sound}</option>
                 ))}
               </select>
+              <button
+                className="test-sound-btn"
+                onClick={() => playSound(soundOption)}
+                aria-label="Test sound"
+                title="Test selected sound"
+              >
+                🔊
+              </button>
             </div>
           </div>
         </header>
