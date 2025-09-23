@@ -4,7 +4,7 @@ A feature-rich Progressive Web App (PWA) for Pomodoro time management with multi
 
 ## 🚀 Live Demo
 
-**App URL**: https://pomodoro-g34snec5x-adam-s-projects-f8673593.vercel.app
+**App URL**: https://pomodoro-c9z35n5n5-adam-s-projects-f8673593.vercel.app
 
 ## ✨ Features
 
