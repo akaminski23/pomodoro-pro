@@ -1,10 +1,13 @@
-const CACHE_NAME = 'pomodoro-pro-v1';
+const CACHE_NAME = 'pomodoro-pro-v4';
 const urlsToCache = [
-  '/',
-  '/static/js/bundle.js',
-  '/static/css/main.css',
-  '/manifest.json',
-  '/favicon.ico'
+  '/pomodoro-pro/',
+  '/pomodoro-pro/static/js/main.3935cedf.js',
+  '/pomodoro-pro/static/css/main.c64ab729.css',
+  '/pomodoro-pro/manifest.json',
+  '/pomodoro-pro/favicon.ico',
+  '/pomodoro-pro/logo192.png',
+  '/pomodoro-pro/logo512.png',
+  '/pomodoro-pro/pomodoro-icon.png'
 ];
 
 self.addEventListener('install', event => {
