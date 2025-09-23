@@ -4,7 +4,18 @@ import './App.css';
 const App = () => {
   const [mode, setMode] = useState('focus');
   const [taskType, setTaskType] = useState('Deep Work');
-  const [customDuration, setCustomDuration] = useState(25);
+  const [customDuration, setCustomDuration] = useState(() => {
+    const saved = localStorage.getItem('pomodoro-focus-duration');
+    return saved ? parseInt(saved) : 25;
+  });
+  const [shortBreakDuration, setShortBreakDuration] = useState(() => {
+    const saved = localStorage.getItem('pomodoro-short-break-duration');
+    return saved ? parseInt(saved) : 5;
+  });
+  const [longBreakDuration, setLongBreakDuration] = useState(() => {
+    const saved = localStorage.getItem('pomodoro-long-break-duration');
+    return saved ? parseInt(saved) : 15;
+  });
   const [timeLeft, setTimeLeft] = useState(25 * 60);
   const [isActive, setIsActive] = useState(false);
   const [sessions, setSessions] = useState(0);
@@ -17,9 +28,9 @@ const App = () => {
 
   const modes = useMemo(() => ({
     focus: { duration: customDuration, label: 'Focus Time' },
-    shortBreak: { duration: 5, label: 'Short Break' },
-    longBreak: { duration: 15, label: 'Long Break' }
-  }), [customDuration]);
+    shortBreak: { duration: shortBreakDuration, label: 'Short Break' },
+    longBreak: { duration: longBreakDuration, label: 'Long Break' }
+  }), [customDuration, shortBreakDuration, longBreakDuration]);
 
   const taskTypes = ['Deep Work', 'Content Creation', 'Client Calls', 'Strategy Planning'];
 
@@ -65,6 +76,18 @@ const App = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('pomodoro-focus-duration', customDuration.toString());
+  }, [customDuration]);
+
+  useEffect(() => {
+    localStorage.setItem('pomodoro-short-break-duration', shortBreakDuration.toString());
+  }, [shortBreakDuration]);
+
+  useEffect(() => {
+    localStorage.setItem('pomodoro-long-break-duration', longBreakDuration.toString());
+  }, [longBreakDuration]);
 
   const toggleTimer = useCallback(() => {
     setIsActive(!isActive);
@@ -263,6 +286,38 @@ const App = () => {
                   max="120"
                   value={customDuration}
                   onChange={(e) => setCustomDuration(parseInt(e.target.value))}
+                  disabled={isActive}
+                />
+              </div>
+            </div>
+          )}
+
+          {mode === 'shortBreak' && (
+            <div className="task-controls">
+              <div className="duration-slider">
+                <label>Short Break Duration: {shortBreakDuration} min</label>
+                <input
+                  type="range"
+                  min="1"
+                  max="30"
+                  value={shortBreakDuration}
+                  onChange={(e) => setShortBreakDuration(parseInt(e.target.value))}
+                  disabled={isActive}
+                />
+              </div>
+            </div>
+          )}
+
+          {mode === 'longBreak' && (
+            <div className="task-controls">
+              <div className="duration-slider">
+                <label>Long Break Duration: {longBreakDuration} min</label>
+                <input
+                  type="range"
+                  min="5"
+                  max="60"
+                  value={longBreakDuration}
+                  onChange={(e) => setLongBreakDuration(parseInt(e.target.value))}
                   disabled={isActive}
                 />
               </div>
