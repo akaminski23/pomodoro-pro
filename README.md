@@ -4,7 +4,7 @@ A feature-rich Progressive Web App (PWA) for Pomodoro time management with multi
 
 ## 🚀 Live Demo
 
-**App URL**: https://pomodoro-d4l5cz3hq-adam-s-projects-f8673593.vercel.app
+**App URL**: https://pomodoro-8v6ggbvq4-adam-s-projects-f8673593.vercel.app
 
 ## ✨ Features
 
@@ -22,8 +22,8 @@ A feature-rich Progressive Web App (PWA) for Pomodoro time management with multi
 - **Liquid Glass Theme**: Advanced glassmorphism with metallic buttons, SVG filters, and premium glass effects
 
 ### ⏱️ Timer Features
-- **3 Timer Modes**: Focus (25 min default), Short Break (5 min), Long Break (15 min)
-- **Custom Duration**: 1-120 minute slider for focus sessions
+- **3 Timer Modes**: Focus, Short Break, Long Break with individual duration controls
+- **Custom Duration Sliders**: Focus (1-120 min), Short Break (1-30 min), Long Break (5-60 min)
 - **Task Types**: Deep Work, Content Creation, Client Calls, Strategy Planning
 - **Session Tracking**: Visual progress indicators and session counters
 - **Circular Progress**: Animated ring showing time remaining
@@ -38,7 +38,7 @@ A feature-rich Progressive Web App (PWA) for Pomodoro time management with multi
 ### ⌨️ User Experience
 - **Keyboard Shortcuts**: Spacebar to start/pause timer
 - **Touch Friendly**: Optimized for mobile interaction
-- **Persistent Settings**: Remembers your preferences
+- **Persistent Settings**: Remembers your preferences and custom durations via localStorage
 
 ## 📲 Installation Instructions
 
