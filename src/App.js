@@ -35,11 +35,22 @@ const App = () => {
     Honey: { primary: '#F59E0B', secondary: '#FBBF24', background: '#FEF3C7', text: '#92400E' },
     Yellow: { primary: '#EAB308', secondary: '#FACC15', background: '#FEF9C3', text: '#854D0E' },
     Cream: { primary: '#D97706', secondary: '#F59E0B', background: '#FEF3C7', text: '#92400E' },
-    Brown: { primary: '#8B4513', secondary: '#A0522D', background: '#F5F5DC', text: '#654321' }
+    Brown: { primary: '#8B4513', secondary: '#A0522D', background: '#F5F5DC', text: '#654321' },
+    'Liquid Glass': {
+      primary: '#2D3748',
+      secondary: '#4A5568',
+      background: 'transparent',
+      text: '#FFFFFF',
+      glass: true,
+      gradient: 'linear-gradient(135deg, rgba(45, 55, 72, 0.8), rgba(74, 85, 104, 0.6), rgba(160, 174, 192, 0.4))',
+      metallic: 'linear-gradient(145deg, #e2e8f0, #cbd5e0, #a0aec0)',
+      accent: '#90CDF4'
+    }
   };
 
   const getTextColor = (bgColor) => {
     const lightThemes = ['Honey', 'Yellow', 'Cream'];
+    if (theme === 'Liquid Glass') return '#FFFFFF';
     return lightThemes.includes(theme) ? themes[theme].text : '#FFFFFF';
   };
 
@@ -184,8 +195,8 @@ const App = () => {
   const currentTheme = themes[theme];
 
   return (
-    <div className="app" style={{
-      background: `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary})`,
+    <div className={`app ${theme === 'Liquid Glass' ? 'liquid-glass-theme' : ''}`} style={{
+      background: theme === 'Liquid Glass' ? currentTheme.gradient : `linear-gradient(135deg, ${currentTheme.primary}, ${currentTheme.secondary})`,
       color: getTextColor(),
       minHeight: '100vh'
     }}>
@@ -316,6 +327,40 @@ const App = () => {
           <p>Press SPACE to start/pause | Install as PWA for best experience</p>
         </footer>
       </div>
+
+      {theme === 'Liquid Glass' && (
+        <svg className="glass-filter">
+          <defs>
+            <filter
+              id="liquid-glass-filter"
+              x="0%"
+              y="0%"
+              width="100%"
+              height="100%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.05 0.05"
+                numOctaves="1"
+                seed="1"
+                result="turbulence"
+              />
+              <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="blurredNoise"
+                scale="15"
+                xChannelSelector="R"
+                yChannelSelector="B"
+                result="displaced"
+              />
+              <feGaussianBlur in="displaced" stdDeviation="1.5" result="finalBlur" />
+              <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+            </filter>
+          </defs>
+        </svg>
+      )}
     </div>
   );
 };
