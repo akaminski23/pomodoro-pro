@@ -4,7 +4,7 @@ A feature-rich Progressive Web App (PWA) for Pomodoro time management with multi
 
 ## 🚀 Live Demo
 
-**App URL**: https://pomodoro-72tbpuhla-adam-s-projects-f8673593.vercel.app
+**App URL**: https://pomodoro-d4l5cz3hq-adam-s-projects-f8673593.vercel.app
 
 ## ✨ Features
 
@@ -15,10 +15,11 @@ A feature-rich Progressive Web App (PWA) for Pomodoro time management with multi
 - **Special Effects**: Pulsing patterns for aggressive sounds, double tones for School Bell
 
 ### 🎨 Themes & UI
-- **7 Color Themes**: Purple, Blue, Green, Honey, Yellow, Cream, Brown
+- **8 Color Themes**: Purple, Blue, Green, Honey, Yellow, Cream, Brown, **Liquid Glass**
 - **Smart Contrast**: Automatic text color adjustment for light/dark themes
 - **Responsive Design**: Optimized for mobile and desktop
 - **Glassmorphism UI**: Modern blur effects and translucent elements
+- **Liquid Glass Theme**: Advanced glassmorphism with metallic buttons, SVG filters, and premium glass effects
 
 ### ⏱️ Timer Features
 - **3 Timer Modes**: Focus (25 min default), Short Break (5 min), Long Break (15 min)
