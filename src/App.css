@@ -1,38 +1,356 @@
-.App {
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.container {
+  max-width: 400px;
+  width: 100%;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+header {
+  margin-bottom: 2rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.controls-row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 1rem;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.theme-selector, .sound-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+}
+
+.theme-selector label, .sound-selector label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.theme-selector select, .sound-selector select {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: inherit;
+  padding: 0.25rem 0.5rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.theme-selector select option, .sound-selector select option {
+  background: #333;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.timer-section {
+  background: rgba(255,255,255,0.1);
+  border-radius: 25px;
+  padding: 2rem;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.mode-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: rgba(255,255,255,0.1);
+  padding: 0.5rem;
+  border-radius: 20px;
+}
+
+.mode-tabs button {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.mode-tabs button.active {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.mode-tabs button:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.task-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.task-type {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.task-type label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.task-type select {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: inherit;
+  padding: 0.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.task-type select option {
+  background: #333;
+  color: white;
+}
+
+.duration-slider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.duration-slider label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.duration-slider input[type="range"] {
+  width: 150px;
+  height: 6px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+.duration-slider input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.duration-slider input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.timer-circle {
+  position: relative;
+  display: inline-block;
+  margin: 2rem 0;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.timer-display {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.timer-display .time {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.timer-display .mode-label {
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0.9;
+  margin-bottom: 0.25rem;
+}
+
+.timer-display .task-label {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.primary-btn, .secondary-btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.primary-btn {
+  background: rgba(255,255,255,0.9);
+  color: #333;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.secondary-btn {
+  background: rgba(255,255,255,0.2);
+  color: inherit;
+  border: 2px solid rgba(255,255,255,0.3);
+}
+
+.secondary-btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+
+.session-progress {
+  margin-top: 2rem;
+}
+
+.sessions-completed {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.session-dots {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.session-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transition: all 0.3s ease;
+}
+
+.session-dot.completed {
+  background: rgba(255,255,255,0.9);
+  transform: scale(1.2);
+}
+
+footer {
+  margin-top: 2rem;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 10px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .container {
+    max-width: 100%;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  .timer-display .time {
+    font-size: 2.5rem;
+  }
+
+  .controls-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .task-controls {
+    flex-direction: column;
+  }
+
+  .timer-controls {
+    flex-direction: column;
+  }
+
+  .primary-btn, .secondary-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .timer-circle svg {
+    width: 150px;
+    height: 150px;
+  }
+
+  .timer-display .time {
+    font-size: 2rem;
+  }
+
+  .timer-section {
+    padding: 1.5rem;
   }
 }

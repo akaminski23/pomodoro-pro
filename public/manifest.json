@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Pomodoro Pro",
+  "name": "Pomodoro Pro - Focus Timer PWA",
+  "description": "A professional Pomodoro timer with multiple themes, sounds, and task tracking features",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +21,11 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#8B5CF6",
+  "background_color": "#8B5CF6",
+  "orientation": "portrait-primary",
+  "categories": ["productivity", "utilities", "lifestyle"],
+  "lang": "en",
+  "scope": "/",
+  "prefer_related_applications": false
 }
