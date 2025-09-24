@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pomodoro-pro-v6';
+const CACHE_NAME = 'pomodoro-pro-v1';
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',
