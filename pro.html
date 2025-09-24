@@ -449,8 +449,16 @@
         }
 
         .range-value {
-            font-size: 0.8rem;
-            opacity: 0.8;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 5px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
         }
 
         /* Statistics */
@@ -705,6 +713,14 @@
                 padding: 8px;
             }
 
+            /* Hide CSS tooltips on mobile devices */
+            @media (hover: none) and (pointer: coarse) {
+                .achievement:hover .achievement-tooltip {
+                    opacity: 0;
+                    pointer-events: none;
+                }
+            }
+
             .sidebar-section {
                 padding: 15px;
             }
@@ -900,18 +916,18 @@
                 <div class="settings-grid">
                     <div class="setting-item">
                         <label>Focus Duration</label>
-                        <input type="range" id="focus-duration" min="1" max="120" value="25">
                         <span class="range-value" id="focus-value">25 minutes</span>
+                        <input type="range" id="focus-duration" min="1" max="120" value="25">
                     </div>
                     <div class="setting-item">
                         <label>Short Break</label>
-                        <input type="range" id="short-duration" min="1" max="30" value="5">
                         <span class="range-value" id="short-value">5 minutes</span>
+                        <input type="range" id="short-duration" min="1" max="30" value="5">
                     </div>
                     <div class="setting-item">
                         <label>Long Break</label>
-                        <input type="range" id="long-duration" min="5" max="60" value="15">
                         <span class="range-value" id="long-value">15 minutes</span>
+                        <input type="range" id="long-duration" min="5" max="60" value="15">
                     </div>
                     <div class="setting-item">
                         <label>Auto-start Sessions</label>
@@ -1618,11 +1634,14 @@
                         </div>
                     `;
 
-                    // Smart tooltip positioning for mobile
-                    achievementEl.addEventListener('mouseenter', (e) => {
-                        this.positionTooltip(e.target);
-                    });
+                    // Only show CSS tooltip on desktop (not mobile)
+                    if (!('ontouchstart' in window)) {
+                        achievementEl.addEventListener('mouseenter', (e) => {
+                            this.positionTooltip(e.target);
+                        });
+                    }
 
+                    // Mobile tooltip only
                     achievementEl.addEventListener('touchstart', (e) => {
                         e.preventDefault();
                         this.showMobileTooltip(e.target, achievement);
