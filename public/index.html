@@ -30,17 +30,38 @@
     -->
     <title>Pomodoro Pro - Focus Timer PWA</title>
     <script>
-      if ('serviceWorker' in navigator) {
+      // iOS Safari compatible service worker registration
+      if ('serviceWorker' in navigator && 'Promise' in window) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('%PUBLIC_URL%/sw.js')
-            .then(registration => {
-              console.log('SW registered: ', registration);
-            })
-            .catch(registrationError => {
-              console.log('SW registration failed: ', registrationError);
-            });
+          // Add delay for iOS Safari compatibility
+          setTimeout(() => {
+            navigator.serviceWorker.register('%PUBLIC_URL%/sw.js')
+              .then(registration => {
+                console.log('SW registered: ', registration);
+                // Handle updates
+                registration.addEventListener('updatefound', () => {
+                  console.log('SW update found');
+                });
+              })
+              .catch(registrationError => {
+                console.log('SW registration failed: ', registrationError);
+                // App should still work without service worker
+              });
+          }, 100);
         });
+      } else {
+        console.log('Service Worker not supported');
       }
+
+      // Error handling for iOS Safari
+      window.addEventListener('error', (e) => {
+        console.error('Global error:', e.message, 'at', e.filename + ':' + e.lineno);
+      });
+
+      window.addEventListener('unhandledrejection', (e) => {
+        console.error('Unhandled promise rejection:', e.reason);
+        e.preventDefault(); // Prevent white screen
+      });
     </script>
   </head>
   <body>

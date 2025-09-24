@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS Safari Debug Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007AFF;
+        }
+        .error { border-left-color: #FF3B30; }
+        .success { border-left-color: #34C759; }
+        #log {
+            background: #000;
+            color: #0F0;
+            padding: 10px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>iOS Safari Debug Test</h1>
+
+    <div class="test">
+        <h3>Basic JavaScript</h3>
+        <p id="js-test">Testing...</p>
+    </div>
+
+    <div class="test">
+        <h3>Service Worker Support</h3>
+        <p id="sw-test">Testing...</p>
+    </div>
+
+    <div class="test">
+        <h3>Audio Context</h3>
+        <p id="audio-test">Testing...</p>
+    </div>
+
+    <div class="test">
+        <h3>Local Storage</h3>
+        <p id="storage-test">Testing...</p>
+    </div>
+
+    <div class="test">
+        <h3>Fetch API</h3>
+        <p id="fetch-test">Testing...</p>
+    </div>
+
+    <div class="test">
+        <h3>Console Log</h3>
+        <div id="log"></div>
+    </div>
+
+    <script>
+        // Capture console.log for display
+        const logDiv = document.getElementById('log');
+        const originalLog = console.log;
+        const originalError = console.error;
+
+        function displayLog(type, ...args) {
+            const timestamp = new Date().toLocaleTimeString();
+            const message = args.map(arg =>
+                typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ');
+            logDiv.textContent += `[${timestamp}] ${type}: ${message}\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        console.log = (...args) => {
+            originalLog.apply(console, args);
+            displayLog('LOG', ...args);
+        };
+
+        console.error = (...args) => {
+            originalError.apply(console, args);
+            displayLog('ERROR', ...args);
+        };
+
+        // Catch unhandled errors
+        window.addEventListener('error', (e) => {
+            console.error('Unhandled error:', e.message, 'at', e.filename + ':' + e.lineno);
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Unhandled promise rejection:', e.reason);
+        });
+
+        console.log('Debug script starting...');
+
+        // Test 1: Basic JavaScript
+        try {
+            document.getElementById('js-test').textContent = '✅ JavaScript working';
+            document.getElementById('js-test').parentElement.classList.add('success');
+            console.log('Basic JavaScript: OK');
+        } catch (e) {
+            document.getElementById('js-test').textContent = '❌ JavaScript failed: ' + e.message;
+            document.getElementById('js-test').parentElement.classList.add('error');
+            console.error('Basic JavaScript failed:', e);
+        }
+
+        // Test 2: Service Worker
+        try {
+            if ('serviceWorker' in navigator) {
+                document.getElementById('sw-test').textContent = '✅ Service Worker supported';
+                document.getElementById('sw-test').parentElement.classList.add('success');
+                console.log('Service Worker: Supported');
+            } else {
+                document.getElementById('sw-test').textContent = '❌ Service Worker not supported';
+                document.getElementById('sw-test').parentElement.classList.add('error');
+                console.log('Service Worker: Not supported');
+            }
+        } catch (e) {
+            document.getElementById('sw-test').textContent = '❌ Service Worker test failed: ' + e.message;
+            document.getElementById('sw-test').parentElement.classList.add('error');
+            console.error('Service Worker test failed:', e);
+        }
+
+        // Test 3: Audio Context
+        try {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) {
+                const audioContext = new AudioContext();
+                document.getElementById('audio-test').textContent = '✅ Audio Context available (state: ' + audioContext.state + ')';
+                document.getElementById('audio-test').parentElement.classList.add('success');
+                console.log('Audio Context: Available, state:', audioContext.state);
+            } else {
+                document.getElementById('audio-test').textContent = '❌ Audio Context not available';
+                document.getElementById('audio-test').parentElement.classList.add('error');
+                console.log('Audio Context: Not available');
+            }
+        } catch (e) {
+            document.getElementById('audio-test').textContent = '❌ Audio Context test failed: ' + e.message;
+            document.getElementById('audio-test').parentElement.classList.add('error');
+            console.error('Audio Context test failed:', e);
+        }
+
+        // Test 4: Local Storage
+        try {
+            localStorage.setItem('test', 'value');
+            const value = localStorage.getItem('test');
+            localStorage.removeItem('test');
+            document.getElementById('storage-test').textContent = '✅ Local Storage working';
+            document.getElementById('storage-test').parentElement.classList.add('success');
+            console.log('Local Storage: Working');
+        } catch (e) {
+            document.getElementById('storage-test').textContent = '❌ Local Storage failed: ' + e.message;
+            document.getElementById('storage-test').parentElement.classList.add('error');
+            console.error('Local Storage failed:', e);
+        }
+
+        // Test 5: Fetch API
+        fetch('/pomodoro-pro/manifest.json')
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('fetch-test').textContent = '✅ Fetch API working';
+                    document.getElementById('fetch-test').parentElement.classList.add('success');
+                    console.log('Fetch API: Working');
+                } else {
+                    throw new Error('Response not OK: ' + response.status);
+                }
+            })
+            .catch(e => {
+                document.getElementById('fetch-test').textContent = '❌ Fetch failed: ' + e.message;
+                document.getElementById('fetch-test').parentElement.classList.add('error');
+                console.error('Fetch API failed:', e);
+            });
+
+        console.log('All tests initiated');
+        console.log('User Agent:', navigator.userAgent);
+        console.log('Current URL:', window.location.href);
+    </script>
+</body>
+</html>

@@ -306,8 +306,7 @@ const App = () => {
           </div>
         </header>
 
-        <div className="main-content">
-          <div className="timer-section">
+        <div className="timer-section">
           <div className="mode-tabs">
             <button
               className={mode === 'focus' ? 'active' : ''}
@@ -435,41 +434,6 @@ const App = () => {
                   className={`session-dot ${i < sessions % 4 ? 'completed' : ''}`}
                 />
               ))}
-            </div>
-          </div>
-          </div>
-
-          <div className="controls-section">
-            <div className="stats-panel">
-              <h3>Statistics</h3>
-              <div className="stat-item">
-                <span>Current Session:</span>
-                <span>{mode === 'focus' ? 'Focus Time' : mode === 'shortBreak' ? 'Short Break' : 'Long Break'}</span>
-              </div>
-              <div className="stat-item">
-                <span>Sessions Today:</span>
-                <span>{sessions}</span>
-              </div>
-              <div className="stat-item">
-                <span>Task Type:</span>
-                <span>{taskType}</span>
-              </div>
-            </div>
-
-            <div className="quick-actions">
-              <h3>Quick Actions</h3>
-              <button onClick={() => playSound(soundOption)} className="action-btn">
-                🔊 Test Sound
-              </button>
-              <button onClick={() => switchMode('focus')} className="action-btn">
-                🎯 Focus Mode
-              </button>
-              <button onClick={() => switchMode('shortBreak')} className="action-btn">
-                ☕ Short Break
-              </button>
-              <button onClick={() => switchMode('longBreak')} className="action-btn">
-                🌅 Long Break
-              </button>
             </div>
           </div>
         </div>
