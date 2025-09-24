@@ -1,5 +1,5 @@
 // Pomodoro Pro Service Worker - iOS Safari Compatible
-const CACHE_NAME = 'pomodoro-pro-v2';
+const CACHE_NAME = 'pomodoro-pro-v3';
 const urlsToCache = [
   '/pomodoro-pro/pro.html',
   '/pomodoro-pro/pro-manifest.json',
