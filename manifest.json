@@ -9,45 +9,45 @@
       "type": "image/x-icon"
     },
     {
-      "src": "icons/liquid-glass-icon-16.png",
+      "src": "icons/blue-clock-icon-16.png",
       "type": "image/png",
       "sizes": "16x16"
     },
     {
-      "src": "icons/liquid-glass-icon-32.png",
+      "src": "icons/blue-clock-icon-32.png",
       "type": "image/png",
       "sizes": "32x32"
     },
     {
-      "src": "icons/liquid-glass-icon-64.png",
+      "src": "icons/blue-clock-icon-64.png",
       "type": "image/png",
       "sizes": "64x64"
     },
     {
-      "src": "icons/liquid-glass-icon-128.png",
+      "src": "icons/blue-clock-icon-128.png",
       "type": "image/png",
       "sizes": "128x128"
     },
     {
-      "src": "icons/liquid-glass-icon-256.png",
+      "src": "icons/blue-clock-icon-256.png",
       "type": "image/png",
       "sizes": "256x256"
     },
     {
-      "src": "icons/liquid-glass-icon-512.png",
+      "src": "icons/blue-clock-icon-512.png",
       "type": "image/png",
       "sizes": "512x512"
     },
     {
-      "src": "icons/liquid-glass-icon-1024.png",
+      "src": "icons/blue-clock-icon-1024.png",
       "type": "image/png",
       "sizes": "1024x1024"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#8B5CF6",
-  "background_color": "#8B5CF6",
+  "theme_color": "#4A90E2",
+  "background_color": "#4A90E2",
   "orientation": "portrait-primary",
   "categories": ["productivity", "utilities", "lifestyle"],
   "lang": "en",
