@@ -268,7 +268,7 @@ const App = () => {
         <header>
           <h1>
             <img
-              src={`${process.env.PUBLIC_URL}/pomodoro-icon.png`}
+              src={`${process.env.PUBLIC_URL}/icon-96.png?v=lg2`}
               alt="Pomodoro"
               className="pomodoro-icon"
               onError={(e) => {
