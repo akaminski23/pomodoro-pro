@@ -1,0 +1,139 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Exact gradients matching the image -->
+    <radialGradient id="backgroundGradient" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#9333EA;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#7C3AED;stop-opacity:0.95" />
+      <stop offset="80%" style="stop-color:#6D28D9;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#581C87;stop-opacity:0.85" />
+    </radialGradient>
+
+    <radialGradient id="clockFaceGradient" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:0.95" />
+      <stop offset="30%" style="stop-color:#3B82F6;stop-opacity:0.9" />
+      <stop offset="70%" style="stop-color:#2563EB;stop-opacity:0.85" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:0.8" />
+    </radialGradient>
+
+    <linearGradient id="rimGradient" x1="20%" y1="20%" x2="80%" y2="80%">
+      <stop offset="0%" style="stop-color:#FB923C;stop-opacity:0.9" />
+      <stop offset="50%" style="stop-color:#F97316;stop-opacity:0.85" />
+      <stop offset="100%" style="stop-color:#EA580C;stop-opacity:0.8" />
+    </linearGradient>
+
+    <radialGradient id="leftLeafGradient" cx="40%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#34D399;stop-opacity:0.95" />
+      <stop offset="50%" style="stop-color:#10B981;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:0.85" />
+    </radialGradient>
+
+    <radialGradient id="rightLeafGradient" cx="60%" cy="25%" r="75%">
+      <stop offset="0%" style="stop-color:#4ADE80;stop-opacity:0.95" />
+      <stop offset="50%" style="stop-color:#22C55E;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#16A34A;stop-opacity:0.85" />
+    </radialGradient>
+
+    <!-- Enhanced filters for exact glass effect -->
+    <filter id="glassEffect" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="0.8"/>
+      <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.85 0"/>
+      <feOffset dx="0" dy="1"/>
+    </filter>
+
+    <filter id="deepShadow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="4"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0"/>
+      <feOffset dx="0" dy="4"/>
+    </filter>
+
+    <filter id="innerGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+      <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.4 0"/>
+    </filter>
+  </defs>
+
+  <!-- Background with exact liquid glass effect -->
+  <rect x="8" y="8" width="240" height="240" rx="64" ry="64"
+        fill="url(#backgroundGradient)"
+        filter="url(#deepShadow)"/>
+
+  <!-- Highlight overlay for glass effect -->
+  <rect x="8" y="8" width="240" height="240" rx="64" ry="64"
+        fill="none"
+        stroke="url(#backgroundGradient)"
+        stroke-width="1"
+        opacity="0.6"/>
+
+  <!-- Left tomato leaf - exact positioning from image -->
+  <ellipse cx="110" cy="62" rx="16" ry="32"
+           fill="url(#leftLeafGradient)"
+           filter="url(#glassEffect)"
+           transform="rotate(-28 110 62)"/>
+
+  <!-- Right tomato leaf - larger, positioned exactly as in image -->
+  <ellipse cx="146" cy="55" rx="19" ry="36"
+           fill="url(#rightLeafGradient)"
+           filter="url(#glassEffect)"
+           transform="rotate(18 146 55)"/>
+
+  <!-- Clock outer rim with exact orange gradient -->
+  <circle cx="128" cy="128" r="82"
+          fill="url(#rimGradient)"
+          filter="url(#deepShadow)"/>
+
+  <!-- Clock face with exact blue gradient and glass effect -->
+  <circle cx="128" cy="128" r="72"
+          fill="url(#clockFaceGradient)"
+          filter="url(#glassEffect)"/>
+
+  <!-- Hour markers - exact white ovals as in image -->
+  <g fill="rgba(255,255,255,0.85)" filter="url(#glassEffect)">
+    <!-- Main 4 directions - larger ovals -->
+    <ellipse cx="128" cy="68" rx="3" ry="10"/>   <!-- 12 o'clock -->
+    <ellipse cx="188" cy="128" rx="10" ry="3"/>  <!-- 3 o'clock -->
+    <ellipse cx="128" cy="188" rx="3" ry="10"/>  <!-- 6 o'clock -->
+    <ellipse cx="68" cy="128" rx="10" ry="3"/>   <!-- 9 o'clock -->
+
+    <!-- Intermediate hour markers - smaller ovals -->
+    <ellipse cx="157" cy="78" rx="2.5" ry="7" transform="rotate(30 157 78)"/>   <!-- 1 o'clock -->
+    <ellipse cx="178" cy="99" rx="2.5" ry="7" transform="rotate(60 178 99)"/>   <!-- 2 o'clock -->
+    <ellipse cx="178" cy="157" rx="2.5" ry="7" transform="rotate(120 178 157)"/> <!-- 4 o'clock -->
+    <ellipse cx="157" cy="178" rx="2.5" ry="7" transform="rotate(150 157 178)"/> <!-- 5 o'clock -->
+    <ellipse cx="99" cy="178" rx="2.5" ry="7" transform="rotate(210 99 178)"/>  <!-- 7 o'clock -->
+    <ellipse cx="78" cy="157" rx="2.5" ry="7" transform="rotate(240 78 157)"/>  <!-- 8 o'clock -->
+    <ellipse cx="78" cy="99" rx="2.5" ry="7" transform="rotate(300 78 99)"/>    <!-- 10 o'clock -->
+    <ellipse cx="99" cy="78" rx="2.5" ry="7" transform="rotate(330 99 78)"/>    <!-- 11 o'clock -->
+  </g>
+
+  <!-- Clock hands forming checkmark exactly as in image -->
+  <g fill="rgba(255,255,255,0.95)" filter="url(#glassEffect)">
+    <!-- Short hand (checkmark left stroke) -->
+    <rect x="125" y="110" width="4" height="28" rx="2"
+          transform="rotate(45 128 128)"/>
+    <!-- Long hand (checkmark right stroke) -->
+    <rect x="126" y="85" width="4" ry="2" height="48" rx="2"
+          transform="rotate(135 128 128)"/>
+  </g>
+
+  <!-- Center dot -->
+  <circle cx="128" cy="128" r="5"
+          fill="rgba(255,255,255,0.95)"
+          filter="url(#glassEffect)"/>
+
+  <!-- Glass highlight effects to match image exactly -->
+  <circle cx="128" cy="128" r="72"
+          fill="none"
+          stroke="rgba(255,255,255,0.15)"
+          stroke-width="1"/>
+
+  <!-- Subtle inner highlight -->
+  <circle cx="118" cy="108" r="25"
+          fill="rgba(255,255,255,0.08)"
+          filter="url(#innerGlow)"/>
+
+  <!-- Outer frame highlight -->
+  <rect x="8" y="8" width="240" height="240" rx="64" ry="64"
+        fill="none"
+        stroke="rgba(255,255,255,0.25)"
+        stroke-width="1.5"/>
+</svg>
